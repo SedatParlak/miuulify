@@ -23,4 +23,5 @@ seaborn==0.12.1
 spotipy==2.22.0
 SQLAlchemy==1.4.45
 validators==0.20.0
+lightgbm==3.3.3
 
