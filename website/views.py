@@ -39,9 +39,9 @@ def home():
                 if mood == 0:
                     session['song_mood'] = ['Hmmm... Mutlu olduğunu hissediyorum. Hayatın tadını çıkarıyor gibisin. Hadi! Sana eşlik edecek olan şarkılara bir göz at.']
                 elif mood == 1:
-                    session['song_mood'] = ['Hmmm... Sanırım bugün biraz hüzünlüsün. Çok kafaya takmamak gerek ya. Sana bu modda önerdiklerime bir göz at.'],
+                    session['song_mood'] = ['Hmmm... Sanırım bugün biraz hüzünlüsün. Çok kafaya takmamak gerek ya. Sana bu modda önerdiklerime bir göz at.']
                 elif mood == 2:
-                    session['song_mood'] = ['Hmmm...Enerjik olduğunu hissediyorum. Oturmaya mı geldik kardeşim. O zaman dans!'],
+                    session['song_mood'] = ['Hmmm...Enerjik olduğunu hissediyorum. Oturmaya mı geldik kardeşim. O zaman dans!']
                 else:
                     session['song_mood'] = ['Hmmm...Sakin bir anındayız. Hadi biraz rahatlayalım ve anın tadını çıkaralım. Bu moda uygun önerdiklerime bir göz at.']
 
@@ -52,9 +52,9 @@ def home():
                 if mood == 0:
                     session['song_mood'] = 'Hmmm... Mutlu olduğunu hissediyorum. Hayatın tadını çıkarıyor gibisin. Hadi! Sana eşlik edecek olan şarkılara bir göz at.'
                 elif mood == 1:
-                    session['song_mood'] = 'Hmmm... Sanırım bugün biraz hüzünlüsün. Çok kafaya takmamak gerek ya. Sana bu modda önerdiklerime bir göz at.',
+                    session['song_mood'] = 'Hmmm... Sanırım bugün biraz hüzünlüsün. Çok kafaya takmamak gerek ya. Sana bu modda önerdiklerime bir göz at.'
                 elif mood == 2:
-                    session['song_mood'] = 'Hmmm...Enerjik olduğunu hissediyorum. Oturmaya mı geldik kardeşim. O zaman dans!',
+                    session['song_mood'] = 'Hmmm...Enerjik olduğunu hissediyorum. Oturmaya mı geldik kardeşim. O zaman dans!'
                 else:
                     session['song_mood'] = 'Hmmm...Sakin bir anındayız. Hadi biraz rahatlayalım ve anın tadını çıkaralım. Bu moda uygun önerdiklerime bir göz at.'       
                 
