@@ -8,8 +8,8 @@ import pickle
 
 
 
-cid = 'c4e481fb17944c40a83d50711160fc4e'
-secret = '98eed629820e41d0bb25fd48a73fba79'
+cid = '4ed8351b49ee4d53b7dbf0c9a4f5f030'
+secret = 'a39aecc1ca2c4e7f943fcc1ee0d70224'
 client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 
@@ -33,9 +33,31 @@ def home():
             song_id = spotift_link.split('/')[-1:][0].split('?')[0]
 
             if len(df[df['id'] == song_id]) == 0:
-                track_ids = recommender_1(df, spotift_link)
+                
+                track_ids, mood = recommender_1(df, spotift_link)
+
+                if mood == 0:
+                    session['song_mood'] = ['Hmmm... Mutlu olduğunu hissediyorum. Hayatın tadını çıkarıyor gibisin. Hadi! Sana eşlik edecek olan şarkılara bir göz at.']
+                elif mood == 1:
+                    session['song_mood'] = ['Hmmm... Sanırım bugün biraz hüzünlüsün. Çok kafaya takmamak gerek ya. Sana bu modda önerdiklerime bir göz at.'],
+                elif mood == 2:
+                    session['song_mood'] = ['Hmmm...Enerjik olduğunu hissediyorum. Oturmaya mı geldik kardeşim. O zaman dans!'],
+                else:
+                    session['song_mood'] = ['Hmmm...Sakin bir anındayız. Hadi biraz rahatlayalım ve anın tadını çıkaralım. Bu moda uygun önerdiklerime bir göz at.']
+
+                
             else:
-                mood = df[df['id'] == song_id]['moodd'].values[0]          
+                mood = df[df['id'] == song_id]['moodd'].values[0]   
+
+                if mood == 0:
+                    session['song_mood'] = 'Hmmm... Mutlu olduğunu hissediyorum. Hayatın tadını çıkarıyor gibisin. Hadi! Sana eşlik edecek olan şarkılara bir göz at.'
+                elif mood == 1:
+                    session['song_mood'] = 'Hmmm... Sanırım bugün biraz hüzünlüsün. Çok kafaya takmamak gerek ya. Sana bu modda önerdiklerime bir göz at.',
+                elif mood == 2:
+                    session['song_mood'] = 'Hmmm...Enerjik olduğunu hissediyorum. Oturmaya mı geldik kardeşim. O zaman dans!',
+                else:
+                    session['song_mood'] = 'Hmmm...Sakin bir anındayız. Hadi biraz rahatlayalım ve anın tadını çıkaralım. Bu moda uygun önerdiklerime bir göz at.'       
+                
                 track_ids = recommender_2(df, spotift_link, mood)            
             
             recommend_dict = {}
@@ -53,8 +75,9 @@ def home():
 @views.route('/recommend')
 def recommend():
 
+    song_mood = session.get('song_mood')
     recommend_dict = session.get('recommend_dict')
-    return render_template('recommend.html', recommend_dict=recommend_dict)
+    return render_template('recommend.html', recommend_dict=recommend_dict, song_mood=song_mood)
 
 
 ##########################################################################################
@@ -121,7 +144,8 @@ def recommender_1(dataframe, spotify_link, scale=0.1):
         
     tracks_id = recommend_df['id'].iloc[0:8]
     
-    return tracks_id   
+    return tracks_id, song_mood[0]   
+   
 
 
 def recommender_2(dataframe, link, mood, scale=0.1):
