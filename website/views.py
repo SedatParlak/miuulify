@@ -109,16 +109,15 @@ def recommender_1(dataframe, spotify_link, scale=0.1):
     recommend_df = recommend_df.drop_duplicates(keep='first')
     
     if len(recommend_df) < 8:
-        recommend_df = recommend_df.iloc[0:8]
+        mood_df = dataframe[dataframe['moodd'] == song_mood[0]].sort_values('popularity', ascending=False).head(10).sample(8)
+        recommend_df = pd.concat([recommend_df, mood_df]).iloc[0:8]
         recommend_df = recommend_df.sample(frac = 1)
     elif (len(recommend_df) >= 8) and (len(recommend_df) < 16):
         mood_df = dataframe[dataframe['moodd'] == song_mood[0]].sort_values('popularity', ascending=False).sample(8)
         recommend_df = pd.concat([recommend_df, mood_df]).iloc[0:8]
         recommend_df = recommend_df.sample(frac = 1)
     else:
-        mood_df = dataframe[dataframe['moodd'] == song_mood[0]].sort_values('popularity', ascending=False).head(16).sample(8)
-        recommend_df = pd.concat([recommend_df, mood_df]).iloc[0:8]
-        recommend_df = recommend_df.sample(frac = 1)
+        recommend_df = recommend_df.sort_values('popularity', ascending=False).sample(8)
         
     tracks_id = recommend_df['id'].iloc[0:8]
     
