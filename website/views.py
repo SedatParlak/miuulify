@@ -112,16 +112,32 @@ def recommender_1(dataframe, spotify_link, scale=0.1):
     song_df['tempo'] = song_df['tempo'].values[0] / 246
     song_df['loudness'] = song_df['loudness'].values[0] / (-60)
         
-    # load ML model
+    # load ML models
     with open('website/static/mood_model.pkl', 'rb') as f:
         loaded_model = pickle.load(f)
+    with open('website/static/tag_model.pkl', 'rb') as f:
+        tag_model = pickle.load(f)
 
         
-    # predict mood from ML model
+    # predict mood and tag from ML models
     song_mood = loaded_model.predict(song_df)
-        
+    song_tag = tag_model.predict(song_df.drop('avg', axis=1))[0]
+    
+    if song_tag == 0:
+        tag = 'rap'
+    elif song_tag == 1:
+        tag = 'pop'
+    elif song_tag == 2:
+        tag = 'rb'
+    elif song_tag == 3:
+        tag = 'rock'
+    elif song_tag == 4:
+        tag = 'country'
+    else:
+        tag = 'misc'
+       
     # Recommendations
-    dataframe = dataframe[(dataframe['moodd'] == song_mood[0])]
+    dataframe = dataframe[(dataframe['moodd'] == song_mood[0]) & (dataframe['tag'] == tag)]
     recommend_df = dataframe[(dataframe['valence'].between(song_features['valence'] - scale, song_features['valence'] + scale)) &
                                  (dataframe['acousticness'].between(song_features['acousticness'] - scale, song_features['acousticness'] + scale)) &
                                  (dataframe['energy'].between(song_features['energy'] - scale, song_features['energy'] + scale)) &
